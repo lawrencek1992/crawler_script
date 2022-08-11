@@ -4,13 +4,11 @@ This script counts the occurences of the most common words in the "History" sect
 [Microsoft Wikipedia](https://en.wikipedia.org/wiki/Microsoft#History)
 
 ## How It Works
-This script uses selenium webdriver to scrape the text from the "History" section of the Microsoft Wiki. 
+This script uses Beautiful Soup to return all of the text on the Microsoft Wiki. 
 
-All words in this section of text are stored in a dictionary along with the number of times that word appears. 
+The Wiki text is formatted, and then the script selects the "History" substring from that text.
 
-The script then examines the dictionary to determine the top n (default is 10) most commonly appearing words, minus any excluded words. 
-
-The ten most commonly repeated words, and the number of times they appear are stored in a "results" dictionary and printed out in the console. 
+The "History" text is stored in a counter which counts the number of occurences of each word. Any words to be excluded are removed from the coutner. Then the top n (default is 10) most common words are stored in a dictionary, printed out to the Terminal, and returned. 
 
 ## Setup
 
@@ -36,7 +34,7 @@ The ten most commonly repeated words, and the number of times they appear are st
 
 ## Problem Solving Approach
 
-When I first read this problem *(see CrawlerCodingChallenge.txt)*, I assumed I would be using [Selenium Webdriver](https://www.selenium.dev/documentation/webdriver/) to solve it. I anticipated a basic html structure like this: 
+When I first read this problem *(see CrawlerCodingChallenge.txt)*, I assumed I would be using [Selenium Webdriver](https://www.selenium.dev/documentation/webdriver/) to solve it. I anticipated a basic html structure like this for the wiki: 
 
 ```
 <html>
@@ -94,7 +92,7 @@ No big deal, find the css selectors I need, select the necessary elements, get t
 </html>
 ```
 
-The lack of css selectors and lack of anticipated element nesting makes selecting elements much hard, whether I use css selectors, or tag names, or xml path. I could have selected all the `<h2>` and `<p>` elements (along with a couple `<span>` and `<a>` elements), but there would be a lot of them, and I'd need to loop over them to select the ones I want. This seemed like it would involve a lot of code and a lot of looping over lists of elements. 
+The lack of css selectors and lack of anticipated element nesting makes selecting elements much harder, whether I use css selectors, or tag names, or xml path. I could have selected all the `<h2>` and `<p>` elements (along with a couple `<span>` and `<a>` elements), but there would be a lot of them, and I'd need to loop over them to select the ones I want and disregard the others. This seemed like it would involve more lines of code than necessary, so I opted for a different solution.
 
 [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) seems better suited to this task. With Beautiful Soup I can quickly extract all the text from the wiki as one long string and then manipulate that string with a lot of regex to get the "history" words. 
 
@@ -102,9 +100,9 @@ The lack of css selectors and lack of anticipated element nesting makes selectin
 
 1) Is the example of the expected result given in the instructions *(see CrawlerCodingChallenge.txt)* supposed to contain correct answers for the words it shows? I do not get the same numbers, and if I copy/paste the "History" section into a [word document](https://docs.google.com/document/d/1-atX6Gz8R2UqYod9On-XoOZTWu_gmOrq3o1DOi8dcvE/edit?usp=sharing), but I still don't get those numbers. (However I did "test" my answers that way, and was able to verify I am returning the word counts I expect to return). Perhaps the wiki has been updated since this coding challenge was first written. 
 
-2) How should hyphens be handled? The following words all appear in the "History" text: "Microsoft", "Micro-soft", "non-Microsoft". I replaced hyphens with empty strings, meaning those three words turn into two words: "microsoft", "microsoft" (same word), and "nonmicrosoft". The same problem exist with "IBM" and "non-IBM". Is this the correct approach? 
+2) How should hyphens be handled? The following words all appear in the "History" text: "Microsoft", "Micro-soft", "non-Microsoft". I replaced hyphens with empty strings, meaning those three words turn into two words: "microsoft", "microsoft" (same word), and "nonmicrosoft". The same problem exist with "IBM" and "non-IBM". Is this the correct approach? If not, why?
 
-3) How should forward slashes be handled? Consider the words: "CP/M" and "X/S". The acronym "CP/M" stands for "Control Program for Microcomputers" and "X/S" is a particular Xbox series. Does it make more sense to replace the forward slashes with empty strings or spaces? (I replaced them with empty strings). 
+3) How should forward slashes be handled? Consider the words: "CP/M" and "X/S". The acronym "CP/M" stands for "Control Program for Microcomputers" and "X/S" is a particular Xbox series. Does it make more sense to replace the forward slashes with empty strings or spaces? I replaced them with empty string. If this is not the correct approach, what approach would be better and why?
 
 4) This challenge did not specifically ask for tests. I "cheated" by using a [word document](https://docs.google.com/document/d/1-atX6Gz8R2UqYod9On-XoOZTWu_gmOrq3o1DOi8dcvE/edit?usp=sharing) which contains the "History" section of the wiki to manually test my code. (I.e. use the python debugger to print out all of the word counts, and then use the find feature in Google docs to search for each word and verify that the word count I return matches the number of times that word appears in the document.) I tested that I return the expected number of words and exclude excluded words by passing arguments to the main() function and examining what prints out. 
 

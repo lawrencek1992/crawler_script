@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 def get_history_words(request):
     """
-    Take the request from the Microsoft Wiki url and return only the text in the 'Hisory' section of the Microsoft Wiki. 
+    Take the request from the Microsoft Wiki url and return only the text in the 'History' section of the Microsoft Wiki. 
 
     :param request: Request returned from the Microsoft Wiki page.
 
@@ -34,7 +34,7 @@ def get_history_words(request):
     for replacement in chars_to_replace:
         wiki_text = re.sub(replacement[0], replacement[1], wiki_text)
 
-    # Search for the "History" section of the text with the strings which begin and end that section.
+    # Search for the "History" section of the text with the substrings which begin and end that section.
     # Split the "History" string into a list so that it can be passed to Counter.
     # Return the list of "History" words. 
     return re.search("(?:history   further information).+(?:us federal trade commission)", wiki_text).group(0).split()
